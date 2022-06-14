@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import styles from "./dashboard.module.css";
 
-function Dashboard() {
+export const Dashboard = () => {
     const [dashboard, setDashboard] = useState(null);
     const [apiName, setApiName] = useState(null);
-
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -105,4 +104,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+// export default Dashboard;
