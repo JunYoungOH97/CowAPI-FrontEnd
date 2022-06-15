@@ -4,6 +4,9 @@ import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 import {Dashboard} from './dashboard.js';
 import {AI} from './AI.js';
 import {Nav} from './Nav.js';
+import {QnAOnePage} from './QnAOnePage.js';
+import {QnA} from './QnA.js';
+import {QnAWrite} from './QnAwritePage';
 
 function App() {
   return (
@@ -14,6 +17,9 @@ function App() {
           <Route exact path='/' element={<Dashboard />} />
           <Route exact path='/dashboard' element={<Dashboard />} />
           <Route exact path='/ai' element={<AI />} />
+          <Route exact path='/QnAs' element={<QnA />} />
+          <Route exact path='/QnAs/:QnAId' element={<QnAOnePage />} />
+          <Route exact path='/QnAs/writePage' element={<QnAWrite />} />
       </Routes>
     </Router>
   );

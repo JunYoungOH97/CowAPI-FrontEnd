@@ -12,6 +12,10 @@ export const Nav = () => {
               <li>
                 <Link to="/ai">AI</Link>
               </li>
+
+              <li>
+                <Link to="/QnAs">QnA</Link>
+              </li>
             </ul>
 
             <hr />
