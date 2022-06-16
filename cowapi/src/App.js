@@ -17,7 +17,8 @@ function App() {
           <Route exact path='/' element={<Dashboard />} />
           <Route exact path='/dashboard' element={<Dashboard />} />
           <Route exact path='/ai' element={<AI />} />
-          <Route exact path='/QnAs' element={<QnA />} />
+          <Route exact path='/QnAs' element={<QnA state='{"page" : 1}' />} />
+          <Route exact path='/QnAs/page/:page' element={<QnA />} />
           <Route exact path='/QnAs/:QnAId' element={<QnAOnePage />} />
           <Route exact path='/QnAs/writePage' element={<QnAWrite />} />
       </Routes>
