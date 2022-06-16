@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-export const QnA = () => {
+export const QnA = (props) => {
     const [QnAs, setQnAs] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const navigator = new useNavigate();
+    const navigator = useNavigate();
+    const location = useLocation();
 
     function QnAOne({ qna }) {
         return (
@@ -21,30 +22,42 @@ export const QnA = () => {
     };
 
     const onClick = (e) => {
-        console.log(e.target.innerHTML);
         const index = e.target.innerHTML;
-        navigator(`/QnAs/${index}`);
+        navigator(`/QnAs/${index}`, { state : { QnAId : index } });
     };
 
+    const pagenation = (e) => {
+        const pageNumber = e.target.innerHTML
+        
+        navigator(`/QnAs/page/${pageNumber}`, { state : { page : pageNumber } });
+    }
+
     useEffect(() => {
-        // 요청이 시작 할 때에는 error 와 users 를 초기화하고
         setError(null);
         setQnAs(null);
-        // loading 상태를 true 로 바꿉니다.
         setLoading(true);
+  
 
-        const getQnAs = async () => {
-        await axios({
-            url: '/QnAs/QnA/page?page=1',
-            method: 'GET',
-            baseURL: "server"
-        }).then((res) => {console.log(res); setQnAs(res.data.qnADtoList)});
-        setLoading(false);
+        if(location.state == null) {
+            var pageNumber = JSON.parse(props.state).page
+        }
+        else {
+            var pageNumber = location.state.page
+        }
+
+        console.log(pageNumber);
+
+        const getQnAs = async (pageNumber) => {
+            await axios({
+                url: `/server/QnAs/QnA/page?page=${pageNumber}`,
+                method: 'GET',
+            }).then((res) => {console.log(res); setQnAs(res.data.qnADtoList)});
+            setLoading(false);
         };
 
-        getQnAs();
-    }, []);
+        getQnAs(pageNumber);
 
+    }, []);
 
     const handleClick = () => {
         navigator("/QnAs/writePage")
@@ -77,6 +90,25 @@ export const QnA = () => {
                 </tbody>
             </table>
 
+        
+        <form>
+            <button >
+            &lt;
+            </button>
+
+        {Array(10)
+          .fill()
+          .map((_, i) => (
+                <button type = 'button' key={i + 1} onClick={pagenation}>
+                {i + 1}
+                </button>
+            ))}
+
+            <button>
+                &gt;
+            </button>
+
+        </form>
 
         <form>
           <button type="button" onClick={handleClick}>새 QnA 작성</button>
